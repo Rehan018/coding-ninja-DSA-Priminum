@@ -1,0 +1,46 @@
+Get All Unique Subsets
+Send Feedback
+You are given an sorted integer array of size 'n'.
+Your task is to find and return all the unique subsets of the input array.
+Subsets are arrays of length varying from 0 to 'n', that contain elements of the array. But the order of elements should remain the same as in the input array.
+Note:
+The order of subsets is not important. You can return the subsets in any order. However, in the output, you will see the subsets in lexicographically sorted order.
+Constraints :
+1 <= n <= 15
+1 <= arr[i] <= 100
+Time Limit: 1 sec
+
+import java.util.ArrayList;
+import java.util.Arrays;
+public class Solution {
+	public static void printSubsets(int input[]){
+        Arrays.sort(input); 
+        ArrayList<Integer> currentSubset = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+        generateSubsets(input, 0, currentSubset, result);
+        printResult(result);
+    }
+
+    private static void generateSubsets(int[] input, int startIndex, ArrayList<Integer> currentSubset, ArrayList<ArrayList<Integer>> result) {
+        result.add(new ArrayList<>(currentSubset)); 
+
+        for (int i = startIndex; i < input.length; i++) {
+            if (i > startIndex && input[i] == input[i - 1]) {
+                continue;
+            }
+
+            currentSubset.add(input[i]);
+            generateSubsets(input, i + 1, currentSubset, result);
+            currentSubset.remove(currentSubset.size() - 1); 
+        }
+    }
+
+    private static void printResult(ArrayList<ArrayList<Integer>> result) {
+        for (ArrayList<Integer> subset : result) {
+            for (int element : subset) {
+                System.out.print(element + " ");
+            }
+            System.out.println();
+        }
+    }
+}
